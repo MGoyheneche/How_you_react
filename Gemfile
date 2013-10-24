@@ -36,6 +36,8 @@ gem 'sinatra', require: false
 
 gem 'slim'
 
+gem 'tumblr_client'
+
 gem 'sidekiq'
 
 gem 'quiet_assets', :group => :development
