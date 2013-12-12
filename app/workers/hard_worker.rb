@@ -5,19 +5,29 @@ class HardWorker
   def perform(name, count)
   	# require 'fileutils'
 
-    # puts "hello"
-    # puts name
+    # puts "killall PTPCamera"
+    system "killall PTPCamera"
 
+    # puts "gphoto2 --capture-image-and-download"
     system "gphoto2 --capture-image-and-download"
 
+    puts "@picture = Picture.new()"
     @picture = Picture.new(:url => "efwefwe")
 
+
+    puts "picture.save"
     if @picture.save
 
-      Dir.mkdir("public/pictures/#{@picture.id}")
 
+      # puts "mkdir public/picture"
+      system "mkdir public/pictures/#{@picture.id}"
+
+
+      # puts "mv capt0000..."
       system "mv capt0000.jpg public/pictures/#{@picture.id}/"
 
+
+      puts "OAuth Authenticate"
       # Authenticate via OAuth
       client = Tumblr::Client.new({
         :consumer_key => 'QStAzUR41bd7tfJX3soicLvhGacoxwSJJXxNIWDKQDbHWLvIUS',
@@ -26,10 +36,14 @@ class HardWorker
         :oauth_token_secret => 'm2cTd3bRffC5cJ1VVhHPuYYKFbEuaGJp4awPycKnHMi0mGoKMe'
       })
 
+
+      puts "setting picture path"
       picture_path = "public/pictures/#{@picture.id}/capt0000.jpg"
 
+
+      puts "making request to tumblr"
       # Make the request
-      client.photo("howyoureact-test.tumblr.com", {:data => [picture_path]})
+      client.photo("howyoureact.tumblr.com", {:data => [picture_path]})
 
     end
 

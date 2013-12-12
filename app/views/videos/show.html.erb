@@ -1,4 +1,40 @@
-<!-- <iframe id="ytplayer" type="text/html" width="640" height="360"
-src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1"
-frameborder="0" allowfullscreen>
+<!--
+<iframe src="//www.youtube.com/embed/OS0Tg0IjCp4?autoplay=1&html5=1" frameborder="0" allowfullscreen></iframe>
+
+
+<script>
+    setTimeout("window.location.replace('http://0.0.0.0:3000/videos/last_picture')",218000)
+</script>
  -->
+<div id="player"></div>
+
+    <script src="http://www.youtube.com/player_api"></script>
+
+    <script>
+
+        // create youtube player
+        var player;
+        function onYouTubePlayerAPIReady() {
+            player = new YT.Player('player', {
+              videoId: 'OS0Tg0IjCp4',
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+              }
+            });
+        }
+
+        // autoplay video
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        // when video ends
+        function onPlayerStateChange(event) {
+            if(event.data === 0) {
+                window.location.replace("http://0.0.0.0:3000/videos/last_picture");
+            }
+        }
+
+    </script>
+
